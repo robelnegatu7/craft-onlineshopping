@@ -1,0 +1,173 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/97438e55-60dc-4bb5-942d-1731e6e012ae/ # 
+title: craft online shopping main#%RAML 1.0
+version: 1.0
+types:
+  
+  user: !include datatypes/user.raml
+traits:
+  responsemassage: !include traits/responce.raml
+securitySchemes:
+  OAuth: !include securityScheme.raml
+documentation:
+  - !include documentation.raml
+
+
+/users:
+ description: this is the users resource
+ get:
+   description: users resource get http status code responce
+   responses:
+     200:
+        body:
+            application/json:
+               
+            
+                example: !include example/user.raml
+                
+                
+ is: [responsemassage]
+ /{userid}:               
+   description: this is the users resource
+   get:
+    description: users resource get http status code responce
+    responses:
+     200:
+        body:
+            application/json:
+              
+               example: !include example/users.raml
+             
+   
+  
+ post:
+  responses:
+    200:
+      body:
+        application/json:
+          example:
+            {
+              "uid":123
+            }
+    
+  is: [responsemassage]
+/products:
+ description: this is the products resource  
+ get:
+   description: products resource get http status code responce
+   responses:
+     200:
+        body:
+            application/json:
+                example: !include products/product.json
+                 
+   is: [responsemassage]   
+    
+/orders:
+ description: this is the orders resource
+ get:
+   description: orders resource get http status code responce
+   responses:
+     200:
+        body:
+            application/json:
+                example:
+                  [
+                     { "orderid": 123,
+               "userid": 1036,
+               "addressid": 201,
+               "discountid": 1,
+               "created": 1590532592000,
+               "modified": null,
+               "status": "Accepted",
+               "amount": 1000
+               },
+                  {"orderid": 124,
+               "userid": 1038,
+               "addressid": 201,
+               "discountid": 1,
+               "created": 1590560112000,
+               "modified": null,
+               "status": "Awaiting payment",
+               "amount": 1000
+                  }
+                  ]
+  
+ is: [responsemassage]
+ /orders/{id}:               
+   description: this is the orders id resource
+   get:
+    description: orders resource get http status code responce
+    responses:
+     200:
+        body:
+            application/json:
+                example:
+                  {
+              "orderid": 123,
+               "userid": 1036,
+               "addressid": 201,
+               "discountid": 1,
+               "created": 1590532592000,
+               "modified": null,
+               "status": "Accepted",
+               "amount": 1000
+
+                  }   
+                     
+     404:
+      body:
+        application/json:
+          example:
+            {
+              "message": "sorry not found"
+            }
+    
+   post:
+          
+    responses:
+     200:
+      body:
+        application/json:
+          example:
+            {
+              "orderid":10
+            }
+    is: [responsemassage]
+   /orders/{uid}:
+    get:
+      description: 
+      responses:
+       "200":
+          body:
+            application/json:
+              example:
+                {
+               "orderid": 123,
+               "userid": 1036,
+               "addressid": 201,
+               "discountid": 1,
+               "created": 1590532592000,
+               "modified": null,
+               "status": "Accepted",
+               "amount": 1000
+                }
+      is: [responsemassage]
+/catagories:
+  get:
+   description: categories resource get http status code responce
+   responses:
+     200:
+        body:
+            application/json:
+                example:
+                 [
+       {
+      "categoryid": 10,
+      "name": "labtop"
+   },
+      {
+      "categoryid": 11,
+   
+                  }
+    is: [responsemassage]
