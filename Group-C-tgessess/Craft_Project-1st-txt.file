@@ -1,5 +1,5 @@
 #%RAML 1.0
-baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/bfb949a6-c53f-4548-a731-d8d359d7e477/ # 
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/bfb949a6-c53f-4548-a731-d8d359d7e477/ #
 title: craft-online-shoping
 version: 10
 /users:
@@ -24,7 +24,7 @@ version: 10
               {
                 "message": "unauthorized request"
               }
-     
+
       403:
         body:
           application/json:
@@ -32,7 +32,7 @@ version: 10
               {
                 "Message": "Forbidden "
               }
-        
+
       404:
         body:
           application/json:
@@ -42,14 +42,14 @@ version: 10
               }
   /{userid}:
     get:
-      description: 
+      description:
       responses:
         200:
           body:
             application/json:
               example:
                 {
-                   
+
                 "userid": 900,
                 "email": "abcdkkk@gmail.com",
                 "date_joined": -1573012800000,
@@ -65,7 +65,7 @@ version: 10
                 {
                   "message": "unauthorized request"
                 }
-     
+
         403:
           body:
             application/json:
@@ -73,7 +73,7 @@ version: 10
                 {
                   "Message": "Forbidden "
                 }
-          
+
         404:
           body:
             application/json:
@@ -106,7 +106,7 @@ version: 10
                 "modified": 1582747201000,
                 "type": 1,
                 "deleted": false,
-                "username": "Abc" 
+                "username": "Abc"
               }
       401:
         body:
@@ -115,7 +115,7 @@ version: 10
               {
                 "message": "unauthorized request"
               }
-    
+
       403:
         body:
           application/json:
@@ -123,7 +123,7 @@ version: 10
               {
                 "Message": "Forbidden "
               }
-        
+
       404:
         body:
           application/json:
@@ -145,7 +145,7 @@ version: 10
                 "description": "NEHA",
                 "video_url": "www.craft.com",
                 "price": 4414.0
-            } 
+            }
       401:
         body:
           application/json:
@@ -153,7 +153,7 @@ version: 10
               {
                 "message": "unauthorized request"
               }
-    
+
       403:
         body:
           application/json:
@@ -161,7 +161,7 @@ version: 10
               {
                 "Message": "Forbidden "
               }
-        
+
       404:
         body:
           application/json:
@@ -191,7 +191,7 @@ version: 10
                 {
                   "message": "unauthorized request"
                 }
-      
+
         403:
           body:
             application/json:
@@ -199,7 +199,7 @@ version: 10
                 {
                   "Message": "Forbidden "
                 }
-          
+
         404:
           body:
             application/json:
@@ -255,7 +255,7 @@ version: 10
               {
                 "message": "unauthorized request"
               }
-    
+
       403:
         body:
           application/json:
@@ -263,7 +263,7 @@ version: 10
               {
                 "Message": "Forbidden "
               }
-        
+
       404:
         body:
           application/json:
@@ -319,7 +319,7 @@ version: 10
                 {
                   "message": "unauthorized request"
                 }
-      
+
         403:
           body:
             application/json:
@@ -327,7 +327,7 @@ version: 10
                 {
                   "Message": "Forbidden "
                 }
-          
+
         404:
           body:
             application/json:
@@ -354,7 +354,7 @@ version: 10
                 {
                   "message": "unauthorized request"
                 }
-      
+
         403:
           body:
             application/json:
@@ -362,7 +362,7 @@ version: 10
                 {
                   "Message": "Forbidden "
                 }
-          
+
         404:
           body:
             application/json:
@@ -375,7 +375,7 @@ version: 10
       application/json:
         example:
           {
-            
+
             "products": [
               {
                 "productId": 0,
@@ -406,7 +406,7 @@ version: 10
                 {
                   "message": "unauthorized request"
                 }
-      
+
       403:
           body:
             application/json:
@@ -414,7 +414,7 @@ version: 10
                 {
                   "Message": "Forbidden "
                 }
-          
+
       404:
           body:
             application/json:
@@ -423,14 +423,14 @@ version: 10
                 "message": "Not found "
             }
 
-/Categories: 
+/Categories:
   get:
     responses:
       200:
         body:
           application/json:
             example:
-              
+
               [
                 {
                 "categoryid": 0,
@@ -444,7 +444,7 @@ version: 10
                 {
                   "message": "unauthorized request"
                 }
-      
+
       403:
           body:
             application/json:
@@ -452,7 +452,7 @@ version: 10
                 {
                   "Message": "Forbidden "
                 }
-          
+
       404:
           body:
             application/json:
@@ -467,7 +467,7 @@ version: 10
           body:
             application/json:
               example:
-            
+
                   [
                     {
                       "categoryid": 0,
@@ -481,7 +481,7 @@ version: 10
                 {
                   "message": "unauthorized request"
                 }
-        
+
         403:
             body:
               application/json:
@@ -489,7 +489,7 @@ version: 10
                   {
                     "Message": "Forbidden "
                   }
-            
+
         404:
             body:
               application/json:
@@ -497,7 +497,7 @@ version: 10
                   {
                   "message": "Not found "
               }
-                
 
-              
+
+
                                                  

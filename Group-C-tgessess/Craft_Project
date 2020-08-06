@@ -1,0 +1,216 @@
+#%RAML 1.0
+title: Craft-Group-C-Onlineshopping Raml
+version: 1.0
+types:
+  users:  !include Datatype/user.raml
+traits:
+   respomessege: !include traits/responses.raml
+   respo201message: !include traits/trait-201.raml
+
+/categories:
+  get:
+    responses:
+     200:
+       body:
+        application/json:
+          examples:
+
+                  {
+      "categoryid": 10,
+      "name": "labtop"
+   }
+    is: [respomessege]
+
+
+/(catagoryid):
+  get:
+    queryParameters:
+     categoryid:
+       required: true
+       type: integer
+    responses:
+     200:
+       body:
+        application/json:
+          example:
+            {
+               "categoryid": 10,
+                "name": "labtop"
+            }
+    is: [respomessege]
+/Orders:
+  get:
+    responses:
+     200:
+       body:
+        application/json:
+          example:
+                 [
+                {
+                  "addressid": 0,
+                  "amount": 0,
+                  "created": {
+                    "date": 0,
+                    "day": 0,
+                    "hours": 0,
+                    "minutes": 0,
+                    "month": 0,
+                    "nanos": 0,
+                    "seconds": 0,
+                    "time": 0,
+                    "timezoneOffset": 0,
+                    "year": 0
+                  },
+                  "discountid": 0,
+                  "modified": {
+                    "date": 0,
+                    "day": 0,
+                    "hours": 0,
+                    "minutes": 0,
+                    "month": 0,
+                    "nanos": 0,
+                    "seconds": 0,
+                    "time": 0,
+                    "timezoneOffset": 0,
+                    "year": 0
+                  },
+                  "orderid": 0,
+                  "status": "string",
+                  "userid": 0
+                }
+              ]
+    is: [respomessege]
+
+
+
+  /(Orderid):
+
+  /{OrderUid}:
+    get:
+      queryParameters:
+        OrderUid:
+          required: true
+          type: integer
+      responses:
+          200:
+            body:
+              application/json:
+                example:
+                  {
+                  "orderid": 125,
+                    "userid": 1039,
+                    "addressid": 201,
+                    "discountid": 1,
+                    "created": 1590568600000,
+                    "modified": null,
+                    "status": "Accepted",
+                    "amount": 1000
+                  }
+    is: [respomessege]
+    post:
+     responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+              "orderid": 1123,
+              "userid": 11036,
+              "addressid": 201,
+              "discountid": 1,
+              "created": 1590522592000,
+              "modified": null,
+              "status": "Accepted",
+              "amount": 1000
+            }
+      201:
+       body:
+        application/json:
+          examples:
+            {
+              "message":"created"
+            }
+     is: [respomessege]
+  /{productsid}:
+    get:
+      queryParameters:
+        productid:
+          required: true
+          type: integer
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  "productid": 1,
+                  "categoryid": 15,
+                  "name": "DELL PC",
+                  "description": "CORE I 7",
+                  "video_url": "WWW.DELL.COM",
+                  "price": 2000
+
+                }
+
+      is: [respomessege]
+/users:
+  get:
+    responses:
+      200:
+       body:
+          application/json:
+            example: !include examples/users.json
+
+
+    is: [respomessege]
+  post:
+   responses:
+    200:
+      body:
+        application/json:
+          example:
+            {
+              "uid": 123
+            }
+    201:
+      body:
+        application/json:
+          example:
+            {
+              messsege: "created"
+            }
+
+  is: [respomessege]
+
+/(userid):
+  get:
+    queryParameters:
+     userid:
+       required: true
+       type: integer
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/user.json
+
+
+
+    is: [respomessege]
+  post:
+    responses:
+     200:
+      body:
+        application/json:
+          example:
+            uid": 123"
+
+     201:
+       body:
+        application/json:
+          examples:
+            {
+              "message":"created"
+            }
+    is: [respomessege]
+     
