@@ -1,0 +1,127 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/3802868a-9c39-47ac-bb5b-5d69251f48d9/ # 
+title: craft-online-shopping
+version: 1.0
+types:
+  users: !include Datatypes/users.raml
+  order: !include Datatypes/orders.raml
+  uid: !include Datatypes/uid.raml
+  orderRequest: !include Datatypes/orderRequest.raml
+  product: !include Datatypes/products.raml
+  categories: !include Datatypes/categories.raml
+  categoryid: !include Datatypes/categoryid.raml
+  error: !include Datatypes/error.raml
+traits:
+  errorMessage: !include traits/errorMessage.raml
+  
+/users:
+  description: this is the users resources
+  get:
+    description: users resource get http status code response
+    responses:
+      200:
+        body:
+          application/json:
+            type: users[]
+            example: !include get-examples/users.json
+  is: [ errorMessage]
+                                                                              
+  /{userid}:   
+    get:
+      description: 
+      responses:
+        200:
+          body:
+            application/json:
+              type: users
+              example: !include get-examples/userid.json
+    is: [errorMessage]
+/products:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: product[]
+            example: !include get-examples/products.json
+  is: [errorMessage]
+  /{Productid}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: product
+              example: !include get-examples/productid.json
+
+    is: [errorMessage]
+  
+                
+      
+/orders:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: order[]
+            example: !include get-examples/orders.json
+  is: [ errorMessage]
+  /{Orderid}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: order
+              example: !include get-examples/orderid.json
+
+    is: [errorMessage]
+  /{orderUid}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: uid
+              example: !include get-examples/orderuid.json
+
+    is: [errorMessage]
+  post:
+    body:
+      application/json:
+        type: orderRequest
+        example: !include post-examples/orderRequest.json
+          
+    responses:
+      200:
+        body:
+          application/json:
+            type: orderRequest
+            example: !include post-examples/orderResponse.json
+    is: [errorMessage]
+/Categories: 
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: categories[]
+            example: !include get-examples/categories.json
+  is:
+     [errorMessage]
+  
+  /{Categoryid}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+             type: categoryid
+             example: !include get-examples/categoryid.json
+    is: [errorMessage]
+       
+                  
+       
+              
+                                                 
