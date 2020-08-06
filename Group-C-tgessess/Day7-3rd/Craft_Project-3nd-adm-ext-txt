@@ -1,0 +1,31 @@
+#%RAML 1.0 Extension
+extends: craft-group-c-onlineshopping-raml.raml
+/admin:
+  get:
+  post:
+  put:
+  delete:
+/adminproduct:
+  get:
+  post:
+  put:
+  delete:
+    responses:
+      200:
+        body:
+          application/json:
+             example:
+              {
+                 message: "resource deleted"
+              }
+/adminusers:
+  get:
+  delete:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                messege: "resource deleted"
+              }
