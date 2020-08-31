@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="97a6f188-fd12-4c81-9083-1dbba7e63826" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="QuestionsONE.1-5andQTWO.2-3-4ans" doc:id="9c6a7418-2ef6-44fd-ba91-a74d0a8320a6" >
+		<http:listener doc:name="Listener" doc:id="4846d92a-adee-4c7d-885f-5195084ba3ee" config-ref="HTTP_Listener_config1" path="/groupwork"/>
+		<ee:transform doc:name="Transform Message" doc:id="2db779b9-c3f0-4674-842b-e884c777ef6e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+var index = payload.user map ( "$$" : $)
+fun myfun() = " hello classmates."
+
+var firstname ="jone"
+var lastname = " andersone"
+var word1   = "your age is"
+var age =32
+var word2 = " Thank You!"
+ var result = firstname ++ lastname 
+ ++" "++ word1 ++" " ++ age ++ "." ++  word2
+ 
+ var G ={fname:" gashaw ",
+ 	     lname: " abebe ",
+ 	      age:32,
+ 	      address:  "401 kalen dr",
+ 	      city: " st.louis",
+ 	      state: " missouri",
+ 	      phoneno: " 314 087 0800"
+ }
+ var f = " This is warring message"
+ var g = " from the mule application"
+  var conc = f ++ " " ++ g
+  
+---
+
+//myfun() // ===>Q1.1
+//result //====>Q1.2
+   //====>Q1.3 & Q1.4 by logger 
+//Informations:{ mydata:G
+	
+//}
+ 
+
+
+ //=====>Q1.5
+//conc
+
+
+//====>Q2. 2
+//payload map ( value,index )-> value.price +  value.price   // but dose not come valu
+
+//payload map ( value,index )-> (value.price *2)
+
+ //======> Q2.3 xml
+// List_Of_Items:{item:
+// 	 payload map((value,index)-> " id= "  ++ '"'  ++ value.id ++ 
+// '"' 	++ " itemname= " ++ '" ' ++ value.itemname ++ '"'++ " itemcode= "
+// ++ '"' ++ value.itemcode ++ '"'++ " price= "++ '"' ++ value.price ++ '"' )}
+ 	 
+ 	 //======> Q2. 4 json and xml
+ 	 
+
+  
+//  payload map((value,index)->  value.id  ++ ", "
+//  	++   value.itemname ++ ", "
+//  ++ value.itemcode ++ ", "  ++ value.price) 
+  
+  
+  
+  All_Items:{item:payload map((value,index)->   value.id  
+  	 ++ ", " ++   value.itemname ++
+  ", " ++   value.itemcode  ++ ", " ++
+   value.price)}
+
+
+   
+
+
+
+ 
+ 
+ 
+ ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="6d012ce7-99f1-42d1-9268-acfa15dfd75a" message="#[payload.informations.mydata]"/>
+	</flow>
+	<flow name="Q1.4bycsv" doc:id="436207b3-220d-4207-ad5b-1e23714d1551" >
+		<http:listener doc:name="Listener" doc:id="cb47e285-23f3-4057-b446-b7e2a779acf6" config-ref="HTTP_Listener_config1" path="/trial"/>
+		<ee:transform doc:name="Transform Message" doc:id="f70ecbfe-6961-4a19-b3cc-9449f8ffa337" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+
+	{Informations:{ 
+		mydata:{
+			fname: payload.Informations.mydata.fname,
+			lname: payload.Informations.mydata.lname,
+			age: payload.Informations.mydata.age as String,
+			address: payload.Informations.mydata.address,
+			city: payload.Informations.mydata.city,
+			state: payload.Informations.mydata.state,
+			phoneno: payload.Informations.mydata.phoneno
+		}
+		}
+		}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Question6and7" doc:id="9779e104-5d6e-4bcd-8672-1517a18d8f9b" >
+		<http:listener doc:name="Listener" doc:id="ba434e77-0058-4be4-b256-1663bc330a70" config-ref="HTTP_Listener_config1" path="/employee"/>
+		<ee:transform doc:name="Transform Message" doc:id="68b24a58-5e75-47aa-95c4-df951ac596b9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+ //====> Q6 also this question we have tested on postman.
+ 
+payload.employeers.*employee.empAge
+
+//=====> Q7 we can not do,but we try like below
+
+//[employeers: {employee:
+//"employeeName": "Abebe", 
+//	"employeeAge": "23" ,
+//	"employeeSalary": "5000",
+//	"company": "craftSoftware"
+//	},
+// 
+//employeers:{employee:
+//"employeeName": "Kebede" ,
+//"employeeAge": "55" ,
+// "employeeSalary": "8000",
+//"company": "craftSoftware"
+//}
+//
+//
+// ]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="Question1and5ans" doc:id="01426eda-4c74-4d0b-aa4e-2c00b2ce4640" >
+		<http:listener doc:name="Listener" doc:id="a80bbbbb-0264-4e6e-b931-53177aa6a142" config-ref="HTTP_Listener_config1" path="/goodjob"/>
+		<ee:transform doc:name="Transform Message" doc:id="1ddba173-1356-4b3a-bfa3-b76fa9bc9c87" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var index = payload.user map ( "$$" : $ )
+---
+//====> Q2.1
+//index  
+
+ // ====>Q5 // ===>thie is not include 
+                  //user on second id
+ {users:payload
+ 	
+ }
+ 
+ 	   
+//{
+//  "users": [
+//    {
+//      "user": {
+//        "ID": "693cacff-147d-4b84-add8-dad773730508",
+//        "FIRSTNAME": "piter",
+//        "MIDDLENAME": "gg",
+//        "LASTNAME": "gg",
+//        "CITY": "jj",
+//        "STATE": "New York",
+//        "ADDRESS": "gg",
+//        "EMAIL": "ggh@hh.nn"
+//      }
+//    },
+//    {
+//      "user": {
+//        "ID": "53634496-86ee-420b-9d36-64969e417833",
+//        "FIRSTNAME": "tomas",
+//        "MIDDLENAME": "dsfsd",
+//        "LASTNAME": "dsfsdf",
+//        "CITY": "AA",
+//        "STATE": "California",
+//        "ADDRESS": "sdsd",
+//        "EMAIL": "dsdsf@gmail.com"
+//      }
+//    }
+//  ]
+//}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
