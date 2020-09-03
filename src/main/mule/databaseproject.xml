@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="79360b08-6121-4b33-9203-56428a0a047d" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="5e141b9d-e647-4764-aec8-74c55f55e6eb" >
+		<db:my-sql-connection host="dev.icraftsoft.net" port="3306" user="trainee" password="shoppingCl@55" database="craftshopping" />
+	</db:config>
+	<flow name="question1" doc:id="d8622f3c-34ba-4841-aac6-22c3a1fbc5d4" >
+		<http:listener doc:name="Listener" doc:id="af27a9f9-0ef4-4f0e-aab9-1839e963069c" config-ref="HTTP_Listener_config" path="/choiceone"/>
+		<file:read doc:name="Read" doc:id="f42d8fba-217b-4c5f-9cf5-bf91779c2a44" path="/Users/SwaggyBel/Desktop/Craft/Untitled.csv"/>
+		<ee:transform doc:name="Transform Message" doc:id="6b765880-2a69-4447-bd26-70e81f38d04b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="question2" doc:id="bc9bf608-0297-4f5b-8077-f257fb5c5ec8" >
+		<http:listener doc:name="Listener" doc:id="0df139ab-1ec8-4805-bc43-456f1bad853b" config-ref="HTTP_Listener_config" path="/choicetwo"/>
+		<choice doc:name="Choice" doc:id="9c0fa289-09dd-4f61-9b07-20c7768118fa" >
+			<when expression='#[attributes.queryParams.info == "products"]'>
+				<db:select doc:name="Select" doc:id="404df193-c482-4c1d-b39e-c9a0c7aa47f1" config-ref="Database_Config">
+					<db:sql ><![CDATA[select * from products ]]></db:sql>
+				</db:select>
+				<ee:transform doc:name="Transform Message" doc:id="94a121a3-376e-4de9-964e-63840e927bf7" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<when expression='#[attributes.queryParams.info == "users"]'>
+				<db:select doc:name="Select" doc:id="f5d9ac7f-35bb-4b6a-ad84-1cff241b9dfa" config-ref="Database_Config">
+					<db:sql ><![CDATA[select * from users]]></db:sql>
+				</db:select>
+				<ee:transform doc:name="Transform Message" doc:id="3b32b494-dafe-4477-bcbf-7bcc6c282ff8" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="67ca98cd-0c3f-45ee-9517-c398e5e21a63" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Information not found"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</flow>
+	<flow name="question3" doc:id="c81ce6d0-7c9e-41ad-80cf-a770d16825d9" >
+		<http:listener doc:name="Listener" doc:id="3c74685e-6bdd-45a1-af34-d11863036912" config-ref="HTTP_Listener_config" path="/choicethree"/>
+		<choice doc:name="Choice" doc:id="e7085cb7-3320-4aeb-b4d6-7f09699889f0" >
+			<when expression="#[attributes.queryParams.amount == over]">
+				<db:select doc:name="Select" doc:id="b5db9139-b56f-4e0c-bc95-fe8390e7691a" config-ref="Database_Config">
+			<db:sql><![CDATA[select * from orders where amount > 5000 order by status;
+
+]]></db:sql>
+		</db:select>
+				<ee:transform doc:name="Transform Message" doc:id="5495b055-c245-46f9-8a9c-8d0adf6cda6d">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			</when>
+			<otherwise >
+				<db:select doc:name="Select" doc:id="2ae3f9eb-006f-4228-bc01-a97daaf29c97" config-ref="Database_Config">
+			<db:sql><![CDATA[select * from orders where amount < 5000 order by status;]]></db:sql>
+		</db:select>
+				<ee:transform doc:name="Transform Message" doc:id="df1c6aa3-2e31-49e2-a7d9-0944886b6c00">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			</otherwise>
+		</choice>
+	</flow>
+	<flow name="question4" doc:id="18f70d7a-8b52-436d-a584-7bbe673b412e" >
+		<http:listener doc:name="Listener" doc:id="8a0fd5e9-beaf-4e88-9c93-34c737cf1a5a" config-ref="HTTP_Listener_config" path="/choice"/>
+		<choice doc:name="Choice" doc:id="8be4d04a-bc4c-4e5b-8d7d-494cf0479a1f" >
+			<when expression='#[attributes.queryParams.num &lt; 10]'>
+				<choice doc:name="Choice" doc:id="b03779dc-fff9-48bd-ae13-880c47036e7e" >
+					<when expression='#[attributes.queryParams.num == 1]'>
+						<ee:transform doc:name="Transform Message" doc:id="969a4662-a5e1-4ac1-b4d6-d35db0dfe5d2" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	
+	message: "Number is 1"
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</when>
+					<otherwise >
+						<ee:transform doc:name="Transform Message" doc:id="62463742-7e81-4aa7-a243-879e61014541" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Number is less than 10"
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</otherwise>
+				</choice>
+			</when>
+			<when expression='#[attributes.queryParams.num == 10]'>
+				<ee:transform doc:name="Transform Message" doc:id="a5600537-d9b3-4a40-9f2e-a2630085fc4d" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Number is equal to 10"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="f85af581-75a5-4217-91d2-e4717c1caf8f" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Number is greater than 10"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
